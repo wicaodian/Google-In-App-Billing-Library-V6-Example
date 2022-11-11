@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">IapSample</string>
+    <string name="success">\"Premium Activited :) \"</string>
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".NonConsumeable">
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="200dp"
+        android:gravity="center"
+        android:text="Premium is not active"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_premium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Purchase" />
+
+    <Button
+        android:id="@+id/btn_restore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restore" />
+
+</LinearLayout>
