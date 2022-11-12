@@ -17,10 +17,10 @@
             android:name="com.memo.iapsample.Subscription"
             android:exported="false" />
         <activity
-            android:name="com.memo.iapsample.Consumeable"
+            android:name="com.memo.iapsample.Consumable"
             android:exported="false" />
         <activity
-            android:name="com.memo.iapsample.NonConsumeable"
+            android:name="com.memo.iapsample.NonConsumable"
             android:exported="false" />
         <activity
             android:name="com.memo.iapsample.MainActivity"

@@ -1,21 +1,19 @@
 package com.memo.iapsample;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
-import com.android.billingclient.api.ConsumeParams;
-import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
@@ -25,7 +23,7 @@ import com.android.billingclient.api.QueryPurchasesParams;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Consumeable extends AppCompatActivity {
+public class NonConsumable extends AppCompatActivity {
 
     private final String PRODUCT_PREMIUM = "lifetime";
     private final String NoAds = "NoAds";
@@ -44,7 +42,7 @@ public class Consumeable extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_consumeable);
+        setContentView(R.layout.activity_non_consumable);
 
         billingClient = BillingClient.newBuilder(this)
                 .enablePendingPurchases()
@@ -160,6 +158,7 @@ public class Consumeable extends AppCompatActivity {
         });
     }
 
+
     void GetListsInAppDetail() {
         ArrayList<QueryProductDetailsParams.Product> productList = new ArrayList<>();
 
@@ -184,21 +183,6 @@ public class Consumeable extends AppCompatActivity {
                     Log.d(TAG, "IN APP item Price" + li.getOneTimePurchaseOfferDetails().getFormattedPrice());
                 }
                 //Do Anything that you want with requested product details
-            }
-        });
-    }
-
-    //This function will be called in handlepurchase() after success of any consumeable purchase
-    void ConsumePurchase(Purchase purchase) {
-        ConsumeParams params = ConsumeParams.newBuilder()
-                .setPurchaseToken(purchase.getPurchaseToken())
-                .build();
-        billingClient.consumeAsync(params, new ConsumeResponseListener() {
-            @Override
-            public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String s) {
-
-                Log.d("TAG", "Consuming Successful: "+s);
-                tv_status.setText("Product Consumed");
             }
         });
     }
@@ -228,12 +212,8 @@ public class Consumeable extends AppCompatActivity {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     for (String pur : purchases.getProducts()) {
                         if (pur.equalsIgnoreCase(PRODUCT_PREMIUM)) {
-                            Log.d("TAG", "Purchase is successful");
+                            Log.d("TAG", "Purchase is successful" + pur);
                             tv_status.setText("Yay! Purchased");
-
-                            //Calling Consume to consume the current purchase
-                            // so user will be able to buy same product again
-                            ConsumePurchase(purchases);
                         }
                     }
                 }
@@ -271,7 +251,7 @@ public class Consumeable extends AppCompatActivity {
 
                                             if (list.get(i).getProducts().contains(PRODUCT_PREMIUM)) {
                                                 tv_status.setText("Premium Restored");
-                                                Log.d("TAG", "Product id "+PRODUCT_PREMIUM+" will restore here");
+                                                Log.d("TAG", "Product id " + PRODUCT_PREMIUM + " will restore here");
                                             }
 
                                         }

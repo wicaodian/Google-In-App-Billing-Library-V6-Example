@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         btn_nonconsumeable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(MainActivity.this, NonConsumeable.class);
+                intent = new Intent(MainActivity.this, NonConsumable.class);
                 startActivity(intent);
             }
         });
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                intent = new Intent(MainActivity.this, Consumeable.class);
+                intent = new Intent(MainActivity.this, Consumable.class);
                 startActivity(intent);
             }
         });
