@@ -32,7 +32,7 @@ public class NonConsumable extends AppCompatActivity {
         add(NoAds);
     }};
 
-    private String TAG = "IN APP TAG";
+    private String TAG = "iapSample";
 
     private BillingClient billingClient;
 

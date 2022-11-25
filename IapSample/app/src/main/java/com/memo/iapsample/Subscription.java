@@ -25,12 +25,17 @@ import java.util.List;
 
 public class Subscription extends AppCompatActivity {
 
-    private static String PRODUCT_PREMIUM = "subscriptions";
+    private static String PRODUCT_PREMIUM = "yearly";
+    private static String PRODUCT_MONTHLY = "monthly";
     private BillingClient billingClient;
 
     Button btn_premium, btn_restore;
     TextView tv_status;
-
+    private ArrayList<String> purchaseItemIDs = new ArrayList<String>() {{
+        add(PRODUCT_PREMIUM);
+        add(PRODUCT_MONTHLY);
+    }};
+    private String TAG = "iapSample";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +140,44 @@ public class Subscription extends AppCompatActivity {
             }
         });
     }
+    //Call this function using PRODUCT_PREMIUM or PRODUCT_MONTHLY as parameters.
+    void GetListsSubDetail(String SKU) {
+        ArrayList<QueryProductDetailsParams.Product> productList = new ArrayList<>();
 
+        //Set your In App Product ID in setProductId()
+        for (String ids : purchaseItemIDs) {
+            productList.add(
+                    QueryProductDetailsParams.Product.newBuilder()
+                            .setProductId(ids)
+                            .setProductType(BillingClient.ProductType.SUBS)
+                            .build());
+        }
+
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder()
+                .setProductList(productList)
+                .build();
+
+        billingClient.queryProductDetailsAsync(params, new ProductDetailsResponseListener() {
+            @Override
+            public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull List<ProductDetails> list) {
+//                Log.d(TAG, "Total size is: " + list);
+
+                for (ProductDetails li : list) {
+                    if (li.getProductId().equalsIgnoreCase(SKU) && SKU.equalsIgnoreCase(PRODUCT_MONTHLY)) {
+                        LaunchSubPurchase(li);
+                        Log.d(TAG, "Monthly Price is " + li.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice());
+                        return;
+                    } else if (li.getProductId().equalsIgnoreCase(SKU) && SKU.equalsIgnoreCase(PRODUCT_PREMIUM)) {
+                        LaunchSubPurchase(li);
+                        Log.d(TAG, "Yearly Price is " + li.getSubscriptionOfferDetails().get(0).getPricingPhases().getPricingPhaseList().get(0).getFormattedPrice());
+                        return;
+                    }
+
+                }
+                //Do Anything that you want with requested product details
+            }
+        });
+    }
     void LaunchSubPurchase(ProductDetails productDetails) {
         assert productDetails.getSubscriptionOfferDetails() != null;
         ArrayList<BillingFlowParams.ProductDetailsParams> productList = new ArrayList<>();
@@ -206,6 +248,5 @@ public class Subscription extends AppCompatActivity {
             }
         });
     }
-    //This function will be called in handlepurchase() after success of any consumeable purchase
 
 }
