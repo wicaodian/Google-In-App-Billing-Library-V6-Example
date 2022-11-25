@@ -20,5 +20,5 @@ Setup the in-app purchase subscription product in Google Play Console account
 i have already created mine which are 
 
 Product ID: lifetime (for Consumeable & Non Consumeable)
-Product ID: subscription (for Subscription Testing)
+Product ID: yearly and monthly (for Subscription Testing)
 ```
